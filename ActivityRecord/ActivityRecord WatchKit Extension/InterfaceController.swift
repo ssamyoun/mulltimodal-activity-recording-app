@@ -12,6 +12,45 @@ import Foundation
 
 class InterfaceController: WKInterfaceController {
 
+    @IBOutlet weak var whatActivityText: WKInterfaceLabel!
+    
+    @IBAction func labelActivityPressed() {
+        presentTextInputController(withSuggestions: [], allowedInputMode:WKTextInputMode.plain, completion: {(results) -> Void in
+            if results != nil && results!.count > 0 {
+                self.whatActivityText.setText((results?[0] as? String)!)
+            }
+        })
+    }
+    
+    @IBAction func startActivityPressed() {
+        delay(2){
+            WKInterfaceDevice.current().play(.success)
+            WKInterfaceDevice.current().play(.click)
+            self.startLoggingData()
+        }
+    }
+    
+    @IBAction func stopActivityPressed() {
+        WKInterfaceDevice.current().play(.success)
+        WKInterfaceDevice.current().play(.click)
+    }
+    
+    @IBAction func saveBtnPressed() { //save to phone
+        
+    }
+    
+    func delay(_ delay:Double, closure:@escaping ()->()){
+        //function from stack overflow. Delay in seconds
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
+        
+    }
+    
+    func startLoggingData(){
+        
+    }
+    
+    
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
@@ -27,5 +66,4 @@ class InterfaceController: WKInterfaceController {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
-
 }

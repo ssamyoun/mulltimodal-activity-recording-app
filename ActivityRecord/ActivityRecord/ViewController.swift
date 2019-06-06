@@ -7,45 +7,57 @@
 //
 
 import UIKit
+import WatchConnectivity
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, WCSessionDelegate {
 
+    var session: WCSession?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        writetoFile()
+        activateSessionInPhone()
+        //writetoFile()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    func writetoFile(){
-//        let msg: String = "testalgk nalga lnf"
-//        let fileName = "test-activity record.csv"
-//        let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
-//        do {
-//            try msg.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
-//        } catch {
-//            print("Failed to create file")
-//            print("\(error)")
-//        }
-        
-        let str = "Super long string here"
-        let filename = getDocumentsDirectory().appendingPathComponent("test-activity record.csv")
-        
+    func writetoFile(contents:String, fileName: String){
+        let filePath = getDocumentsDirectory().appendingPathComponent(fileName)
         do {
-            try str.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+            try contents.write(to: filePath, atomically: true, encoding: String.Encoding.utf8)
         } catch {
             // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
         }
-        
-        
-//        let myTextString: String = "testalgk nalga lnf"
-//        let destinationPath = NSTemporaryDirectory() + "my_file.txt"
-//        var error:NSError?
-//        myTextString.write(to: destinationPath, atomically: true, encoding: String.Encoding.utf8)
     }
     
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        let contents = message["Contents"] as! String
+        let fileName = message["FileName"] as! String
+        writetoFile(contents: contents, fileName: fileName)
+    }
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+        
+    }
+    
+    func activateSessionInPhone(){
+        if WCSession.isSupported() {
+            session = WCSession.default
+            session?.delegate = self
+            session?.activate()
+        }
     }
 
 }
