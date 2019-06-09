@@ -25,7 +25,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, WorkoutMana
     
     var currentFileName = "" //activity_datetime
     var currentActivityName = ""
-    var currentIMUReadings = "a, b, c, \n"
+    var currentIMUReadings = ""
     
     @IBAction func labelActivityPressed() {
 
@@ -46,46 +46,25 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, WorkoutMana
     }
 
     @IBAction func saveBtnPressed() { //transfer to phone and clear file
-        //presentTextInputController(withSuggestions: [], allowedInputMode:WKTextInputMode.plain, completion: {(results) -> Void in
-            //if results != nil && results!.count > 0 {
-                self.currentActivityName = "Walking"//(results?[0] as? String)!
+        presentTextInputController(withSuggestions: [], allowedInputMode:WKTextInputMode.plain, completion: {(results) -> Void in
+            if results != nil && results!.count > 0 {
+                self.currentActivityName = (results?[0] as? String)! //"Walking"
                 self.whatActivityText.setText(self.currentActivityName)
                 self.currentFileName =  String(self.currentActivityName) + "_" + String(self.getCurrentMillis())
-                self.currentIMUReadings = self.currentIMUReadings + "d, e, f, \n" ////
-                self.writetoFile(contents: self.currentIMUReadings, fileName: self.currentFileName)
-                print("Pushed to watch file")
+                self.currentIMUReadings = self.currentFileName + "\n" + self.currentIMUReadings
+                //self.currentIMUReadings = self.currentFileName + "\n" + self.currentIMUReadings + "d, e, f, \n" ////
+                //self.writetoFile(contents: self.currentIMUReadings, fileName: self.currentFileName)
+                //print("Pushed to watch file") //remove watch file saves later on
+                self.session?.sendMessage(["IMU":self.currentIMUReadings], replyHandler: nil, errorHandler: { error in
+                    print("Error sending message",error)
+                })
+                print("Watch readings sent to phone")
                 self.currentFileName =  ""
                 self.currentActivityName =  ""
                 self.currentIMUReadings = ""
-                let currentfileUrl = self.getDocumentsDirectory().appendingPathComponent(self.currentFileName)
-                self.session?.transferFile(currentfileUrl, metadata: nil)
-                print("Watch file sent to phone")
-            //}
-        //})
-        
-        //save locally/
-        ///
-        //let contentsData = NSData(contentsOf: saveURL )
-        //sendtoPhone(data:contentsData!)
-//        session?.sendMessage(["FileName": whatActivityText], replyHandler: nil, errorHandler: { error in
-//            print("Error sending message",error)
-//        })
-//        let contentsData = NSData(contentsOf: saveURL )
-//        session?.sendMessageData(contentsData as Data, replyHandler: { (data) -> Void in
-//         //handle the response from the device
-//        }) { (error) -> Void in
-//            print("error: \(error.localizedDescription)")
-//        }
-
+            }
+        })
     }
-    
-    //func sendtoPhone(data: NSData){
-        //session?.sendMessageData(data as Data, replyHandler: { (data) -> Void in
-            // handle the response from the device
-        //}) { (error) -> Void in
-        //    print("error: \(error.localizedDescription)")
-        //}
-    //}
     
     func delay(_ delay:Double, closure:@escaping ()->()){
         //function from stack overflow. Delay in seconds
@@ -93,19 +72,19 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, WorkoutMana
         DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
     
-    func writetoFile(contents:String, fileName: String){
-        let filePath = getDocumentsDirectory().appendingPathComponent(fileName)
-        do {
-            try contents.write(to: filePath, atomically: true, encoding: String.Encoding.utf8)
-        } catch {
-            // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
-        }
-    }
+//    func writetoFile(contents:String, fileName: String){
+//        let filePath = getDocumentsDirectory().appendingPathComponent(fileName)
+//        do {
+//            try contents.write(to: filePath, atomically: true, encoding: String.Encoding.utf8)
+//        } catch {
+//            // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
+//        }
+//    }
     
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
+//    func getDocumentsDirectory() -> URL {
+//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        return paths[0]
+//    }
     
     func getCurrentMillis()->Int64{
         return  Int64(NSDate().timeIntervalSince1970 * 1000)
