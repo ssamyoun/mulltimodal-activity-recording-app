@@ -20,6 +20,11 @@
 		8E2FCDE922A8AB0A001C6651 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2FCDE822A8AB0A001C6651 /* ExtensionDelegate.swift */; };
 		8E2FCDEB22A8AB0A001C6651 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2FCDEA22A8AB0A001C6651 /* NotificationController.swift */; };
 		8E2FCDED22A8AB0B001C6651 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E2FCDEC22A8AB0B001C6651 /* Assets.xcassets */; };
+		8E2FCDFE22AC9AAF001C6651 /* RunningBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2FCDFD22AC9AAF001C6651 /* RunningBuffer.swift */; };
+		8E2FCE0022AC9AD5001C6651 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2FCDFF22AC9AD5001C6651 /* MotionManager.swift */; };
+		8E2FCE0222AC9AFF001C6651 /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2FCE0122AC9AFF001C6651 /* WorkoutManager.swift */; };
+		8E2FCE0622ACB336001C6651 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E2FCE0522ACB336001C6651 /* HealthKit.framework */; };
+		8E2FCE0822ACB342001C6651 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E2FCE0722ACB342001C6651 /* HealthKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +88,13 @@
 		8E2FCDEC22A8AB0B001C6651 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E2FCDEE22A8AB0B001C6651 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E2FCDEF22A8AB0B001C6651 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		8E2FCDFD22AC9AAF001C6651 /* RunningBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningBuffer.swift; sourceTree = "<group>"; };
+		8E2FCDFF22AC9AD5001C6651 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
+		8E2FCE0122AC9AFF001C6651 /* WorkoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManager.swift; sourceTree = "<group>"; };
+		8E2FCE0322ACB336001C6651 /* ActivityRecord WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ActivityRecord WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		8E2FCE0522ACB336001C6651 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS5.1.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		8E2FCE0722ACB342001C6651 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		8E2FCE0922ACB342001C6651 /* ActivityRecord.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ActivityRecord.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E2FCE0822ACB342001C6651 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E2FCE0622ACB336001C6651 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,6 +124,7 @@
 				8E2FCDD622A8AB0A001C6651 /* ActivityRecord WatchKit App */,
 				8E2FCDE522A8AB0A001C6651 /* ActivityRecord WatchKit Extension */,
 				8E2FCDC122A8AB06001C6651 /* Products */,
+				8E2FCE0422ACB336001C6651 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -126,6 +141,7 @@
 		8E2FCDC222A8AB06001C6651 /* ActivityRecord */ = {
 			isa = PBXGroup;
 			children = (
+				8E2FCE0922ACB342001C6651 /* ActivityRecord.entitlements */,
 				8E2FCDC322A8AB06001C6651 /* AppDelegate.swift */,
 				8E2FCDC522A8AB07001C6651 /* ViewController.swift */,
 				8E2FCDC722A8AB07001C6651 /* Main.storyboard */,
@@ -149,14 +165,27 @@
 		8E2FCDE522A8AB0A001C6651 /* ActivityRecord WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				8E2FCE0322ACB336001C6651 /* ActivityRecord WatchKit Extension.entitlements */,
 				8E2FCDE622A8AB0A001C6651 /* InterfaceController.swift */,
 				8E2FCDE822A8AB0A001C6651 /* ExtensionDelegate.swift */,
 				8E2FCDEA22A8AB0A001C6651 /* NotificationController.swift */,
 				8E2FCDEC22A8AB0B001C6651 /* Assets.xcassets */,
 				8E2FCDEE22A8AB0B001C6651 /* Info.plist */,
 				8E2FCDEF22A8AB0B001C6651 /* PushNotificationPayload.apns */,
+				8E2FCDFD22AC9AAF001C6651 /* RunningBuffer.swift */,
+				8E2FCDFF22AC9AD5001C6651 /* MotionManager.swift */,
+				8E2FCE0122AC9AFF001C6651 /* WorkoutManager.swift */,
 			);
 			path = "ActivityRecord WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		8E2FCE0422ACB336001C6651 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8E2FCE0722ACB342001C6651 /* HealthKit.framework */,
+				8E2FCE0522ACB336001C6651 /* HealthKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,12 +256,25 @@
 				TargetAttributes = {
 					8E2FCDBF22A8AB06001C6651 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
 					};
 					8E2FCDD122A8AB0A001C6651 = {
 						CreatedOnToolsVersion = 10.1;
 					};
 					8E2FCDE022A8AB0A001C6651 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes.watchos.extension = {
+								enabled = 1;
+							};
+							com.apple.HealthKit.watchos = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -301,8 +343,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E2FCDEB22A8AB0A001C6651 /* NotificationController.swift in Sources */,
+				8E2FCE0022AC9AD5001C6651 /* MotionManager.swift in Sources */,
+				8E2FCDFE22AC9AAF001C6651 /* RunningBuffer.swift in Sources */,
 				8E2FCDE922A8AB0A001C6651 /* ExtensionDelegate.swift in Sources */,
 				8E2FCDE722A8AB0A001C6651 /* InterfaceController.swift in Sources */,
+				8E2FCE0222AC9AFF001C6651 /* WorkoutManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +514,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "ActivityRecord WatchKit Extension/ActivityRecord WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 26WZ8ZNC53;
 				INFOPLIST_FILE = "ActivityRecord WatchKit Extension/Info.plist";
@@ -491,6 +537,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "ActivityRecord WatchKit Extension/ActivityRecord WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 26WZ8ZNC53;
 				INFOPLIST_FILE = "ActivityRecord WatchKit Extension/Info.plist";
@@ -551,6 +598,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ActivityRecord/ActivityRecord.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 26WZ8ZNC53;
 				INFOPLIST_FILE = ActivityRecord/Info.plist;
@@ -569,6 +617,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ActivityRecord/ActivityRecord.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 26WZ8ZNC53;
 				INFOPLIST_FILE = ActivityRecord/Info.plist;

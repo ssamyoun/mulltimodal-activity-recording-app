@@ -20,10 +20,19 @@ class ViewController: UIViewController, WCSessionDelegate {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    func writetoFile(contents:String, fileName: String){
-        let filePath = getDocumentsDirectory().appendingPathComponent(fileName)
+//    func writetoFile(contents:String, fileName: String){
+//        let filePath = getDocumentsDirectory().appendingPathComponent(fileName)
+//        do {
+//            try contents.write(to: filePath, atomically: true, encoding: String.Encoding.utf8)
+//        } catch {
+//            // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
+//        }
+//    }
+    
+    func writeDatatoFile(contents:Data, fileName: String){
+        let fileURL = getDocumentsDirectory().appendingPathComponent(fileName)
         do {
-            try contents.write(to: filePath, atomically: true, encoding: String.Encoding.utf8)
+            try contents.write(to: fileURL, options: .atomic)
         } catch {
             // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
         }
@@ -34,14 +43,23 @@ class ViewController: UIViewController, WCSessionDelegate {
         return paths[0]
     }
     
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        let contents = message["Contents"] as! String
-        let fileName = message["FileName"] as! String
-        writetoFile(contents: contents, fileName: fileName)
-    }
+//    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+//        let contents = message["Contents"] as! String
+//        let fileName = message["FileName"] as! String
+//        writetoFile(contents: contents, fileName: fileName)
+//    }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         
+    }
+    
+    func session(session: WCSession, didReceiveFile file: WCSessionFile) {
+        print("File Recieved on Phone")
+        print(file.fileURL)
+        //new approach
+        let data = NSData(contentsOf: file.fileURL)
+        let fileName = file.fileURL.lastPathComponent
+        writeDatatoFile(contents: data as! Data, fileName: fileName)
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
