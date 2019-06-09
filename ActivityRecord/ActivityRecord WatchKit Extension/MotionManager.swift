@@ -86,39 +86,55 @@ class MotionManager {
     // MARK: Motion Processing
     
     func processDeviceMotion(_ deviceMotion: CMDeviceMotion) {
-        gravityStr = String(format: "X: %.1f Y: %.1f Z: %.1f" ,
+//        gravityStr = String(format: "X: %.1f Y: %.1f Z: %.1f" ,
+//                            deviceMotion.gravity.x,
+//                            deviceMotion.gravity.y,
+//                            deviceMotion.gravity.z)
+//        userAccelStr = String(format: "X: %.1f Y: %.1f Z: %.1f" ,
+//                              deviceMotion.userAcceleration.x,
+//                              deviceMotion.userAcceleration.y,
+//                              deviceMotion.userAcceleration.z)
+//        rotationRateStr = String(format: "X: %.1f Y: %.1f Z: %.1f" ,
+//                                 deviceMotion.rotationRate.x,
+//                                 deviceMotion.rotationRate.y,
+//                                 deviceMotion.rotationRate.z)
+//        attitudeStr = String(format: "r: %.1f p: %.1f y: %.1f" ,
+//                             deviceMotion.attitude.roll,
+//                             deviceMotion.attitude.pitch,
+//                             deviceMotion.attitude.yaw)
+        gravityStr = String(format: "%.1f, %.1f, %.1f" ,
                             deviceMotion.gravity.x,
                             deviceMotion.gravity.y,
                             deviceMotion.gravity.z)
-        userAccelStr = String(format: "X: %.1f Y: %.1f Z: %.1f" ,
+        userAccelStr = String(format: "%.1f, %.1f, %.1f" ,
                               deviceMotion.userAcceleration.x,
                               deviceMotion.userAcceleration.y,
                               deviceMotion.userAcceleration.z)
-        rotationRateStr = String(format: "X: %.1f Y: %.1f Z: %.1f" ,
+        rotationRateStr = String(format: "%.1f, %.1f, %.1f" ,
                                  deviceMotion.rotationRate.x,
                                  deviceMotion.rotationRate.y,
                                  deviceMotion.rotationRate.z)
-        attitudeStr = String(format: "r: %.1f p: %.1f y: %.1f" ,
+        attitudeStr = String(format: "%.1f, %.1f, %.1f" ,
                              deviceMotion.attitude.roll,
                              deviceMotion.attitude.pitch,
                              deviceMotion.attitude.yaw)
         
         let timestamp = Date().millisecondsSince1970
         
-        os_log("Motion: %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@",
-               String(timestamp),
-               String(deviceMotion.gravity.x),
-               String(deviceMotion.gravity.y),
-               String(deviceMotion.gravity.z),
-               String(deviceMotion.userAcceleration.x),
-               String(deviceMotion.userAcceleration.y),
-               String(deviceMotion.userAcceleration.z),
-               String(deviceMotion.rotationRate.x),
-               String(deviceMotion.rotationRate.y),
-               String(deviceMotion.rotationRate.z),
-               String(deviceMotion.attitude.roll),
-               String(deviceMotion.attitude.pitch),
-               String(deviceMotion.attitude.yaw))
+//        os_log("Motion: %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@",
+//               String(timestamp),
+//               String(deviceMotion.gravity.x),
+//               String(deviceMotion.gravity.y),
+//               String(deviceMotion.gravity.z),
+//               String(deviceMotion.userAcceleration.x),
+//               String(deviceMotion.userAcceleration.y),
+//               String(deviceMotion.userAcceleration.z),
+//               String(deviceMotion.rotationRate.x),
+//               String(deviceMotion.rotationRate.y),
+//               String(deviceMotion.rotationRate.z),
+//               String(deviceMotion.attitude.roll),
+//               String(deviceMotion.attitude.pitch),
+//               String(deviceMotion.attitude.yaw))
         
         updateMetricsDelegate();
     }

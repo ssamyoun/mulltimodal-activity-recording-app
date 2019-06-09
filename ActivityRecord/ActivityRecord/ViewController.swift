@@ -49,7 +49,7 @@ class ViewController: UIViewController, WCSessionDelegate {
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         let contents = message["IMU"] as! String
         let contentsArr = contents.components(separatedBy: "\n")
-        let fileName:String = contentsArr[0]
+        let fileName:String = contentsArr[0] + ".csv"
         writeStringtoFile(contents:contents, fileName: fileName)
     }
     

@@ -26,6 +26,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, WorkoutMana
     var currentFileName = "" //activity_datetime
     var currentActivityName = ""
     var currentIMUReadings = ""
+    let labelTitle = "userAccX, userAccY, userAccZ, gravX, gravY, gravZ, rotatX, rotatY, rotatZ \n"
     
     @IBAction func labelActivityPressed() {
 
@@ -51,7 +52,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, WorkoutMana
                 self.currentActivityName = (results?[0] as? String)! //"Walking"
                 self.whatActivityText.setText(self.currentActivityName)
                 self.currentFileName =  String(self.currentActivityName) + "_" + String(self.getCurrentMillis())
-                self.currentIMUReadings = self.currentFileName + "\n" + self.currentIMUReadings
+                self.currentIMUReadings = self.currentFileName + "\n" + self.labelTitle + "\n" + self.currentIMUReadings
                 //self.currentIMUReadings = self.currentFileName + "\n" + self.currentIMUReadings + "d, e, f, \n" ////
                 //self.writetoFile(contents: self.currentIMUReadings, fileName: self.currentFileName)
                 //print("Pushed to watch file") //remove watch file saves later on
@@ -96,7 +97,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, WorkoutMana
             self.userAccelStr = userAccelStr
             self.rotationRateStr = rotationRateStr
             self.attitudeStr = attitudeStr
-            let str = userAccelStr + "," + rotationRateStr + "," + gravityStr + "\n"
+            let str = userAccelStr + ", " + gravityStr + ", " + rotationRateStr + "\n"
             self.currentIMUReadings = String(self.currentIMUReadings) + str
         }
     }
