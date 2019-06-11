@@ -58,8 +58,11 @@
                                 </button>
                             </items>
                         </group>
+                        <timer width="136" height="32" alignment="left" id="aR1-0Z-hrI"/>
                     </items>
                     <connections>
+                        <outlet property="WKTimer" destination="aR1-0Z-hrI" id="Tub-df-X4u"/>
+                        <outlet property="labelBtn" destination="7ef-Bp-YNJ" id="rAj-rt-ijw"/>
                         <outlet property="whatActivityText" destination="wnX-kN-z67" id="4Ll-GY-Hpp"/>
                     </connections>
                 </controller>

@@ -16,7 +16,7 @@ import os.log
  These contexts can be used to enable application specific behavior.
  */
 protocol MotionManagerDelegate: class {
-    func didUpdateMotion(_ manager: MotionManager, gravityStr: String, rotationRateStr: String, userAccelStr: String, attitudeStr: String)
+    func didUpdateMotion(_ manager: MotionManager, gravityStr: String, rotationRateStr: String, userAccelStr: String, attitudeStr: String, timeStamp: Int64)
 }
 
 extension Date {
@@ -44,6 +44,8 @@ class MotionManager {
     var rotationRateStr = ""
     var userAccelStr = ""
     var attitudeStr = ""
+    var timeStamp: Int64?
+    //var offset: Int64?
     
     var recentDetection = false
     
@@ -53,7 +55,16 @@ class MotionManager {
         // Serial queue for sample handling and calculations.
         queue.maxConcurrentOperationCount = 1
         queue.name = "MotionManagerQueue"
+        //offset = getOffset()
     }
+    
+//    func getOffset()-> Int64{
+//        NSProcessInfo.processInfo().systemUptime
+//        NSTimeIntervalSince19
+//        NSTimeInterval uptime = [NSProcessInfo processInfo].systemUptime;
+//        NSTimeInterval nowTimeIntervalSince1970 = [[NSDate date] timeIntervalSince1970];
+//        self.offset = nowTimeIntervalSince1970 - uptime
+//    }
     
     // MARK: Motion Manager
     
@@ -86,41 +97,43 @@ class MotionManager {
     // MARK: Motion Processing
     
     func processDeviceMotion(_ deviceMotion: CMDeviceMotion) {
-//        gravityStr = String(format: "X: %.1f Y: %.1f Z: %.1f" ,
+//        gravityStr = String(format: "X: %.5f Y: %.5f Z: %.5f" ,
 //                            deviceMotion.gravity.x,
 //                            deviceMotion.gravity.y,
 //                            deviceMotion.gravity.z)
-//        userAccelStr = String(format: "X: %.1f Y: %.1f Z: %.1f" ,
+//        userAccelStr = String(format: "X: %.5f Y: %.5f Z: %.5f" ,
 //                              deviceMotion.userAcceleration.x,
 //                              deviceMotion.userAcceleration.y,
 //                              deviceMotion.userAcceleration.z)
-//        rotationRateStr = String(format: "X: %.1f Y: %.1f Z: %.1f" ,
+//        rotationRateStr = String(format: "X: %.5f Y: %.5f Z: %.5f" ,
 //                                 deviceMotion.rotationRate.x,
 //                                 deviceMotion.rotationRate.y,
 //                                 deviceMotion.rotationRate.z)
-//        attitudeStr = String(format: "r: %.1f p: %.1f y: %.1f" ,
+//        attitudeStr = String(format: "r: %.5f p: %.5f y: %.5f" ,
 //                             deviceMotion.attitude.roll,
 //                             deviceMotion.attitude.pitch,
 //                             deviceMotion.attitude.yaw)
-        gravityStr = String(format: "%.1f, %.1f, %.1f" ,
+        gravityStr = String(format: "%.5f, %.5f, %.5f" ,
                             deviceMotion.gravity.x,
                             deviceMotion.gravity.y,
                             deviceMotion.gravity.z)
-        userAccelStr = String(format: "%.1f, %.1f, %.1f" ,
+        userAccelStr = String(format: "%.5f, %.5f, %.5f" ,
                               deviceMotion.userAcceleration.x,
                               deviceMotion.userAcceleration.y,
                               deviceMotion.userAcceleration.z)
-        rotationRateStr = String(format: "%.1f, %.1f, %.1f" ,
+        rotationRateStr = String(format: "%.5f, %.5f, %.5f" ,
                                  deviceMotion.rotationRate.x,
                                  deviceMotion.rotationRate.y,
                                  deviceMotion.rotationRate.z)
-        attitudeStr = String(format: "%.1f, %.1f, %.1f" ,
+        attitudeStr = String(format: "%.5f, %.5f, %.5f" ,
                              deviceMotion.attitude.roll,
                              deviceMotion.attitude.pitch,
                              deviceMotion.attitude.yaw)
         
-        let timestamp = Date().millisecondsSince1970
+        //timeStamp = Int64(deviceMotion.timestamp)
+        timeStamp = Date().millisecondsSince1970
         
+//_ = Date().millisecondsSince1970
 //        os_log("Motion: %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@",
 //               String(timestamp),
 //               String(deviceMotion.gravity.x),
@@ -142,6 +155,6 @@ class MotionManager {
     // MARK: Data and Delegate Management
     
     func updateMetricsDelegate() {
-        delegate?.didUpdateMotion(self,gravityStr:gravityStr, rotationRateStr: rotationRateStr, userAccelStr: userAccelStr, attitudeStr: attitudeStr)
+        delegate?.didUpdateMotion(self,gravityStr:gravityStr, rotationRateStr: rotationRateStr, userAccelStr: userAccelStr, attitudeStr: attitudeStr, timeStamp: timeStamp!)
     }
 }
