@@ -14,12 +14,12 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="ActivityRecord_WatchKit_App" customModuleProvider="target">
                     <items>
-                        <label width="136" height="33" alignment="left" text="What Activity?" textAlignment="center" id="wnX-kN-z67" colorLabel="IBBuiltInLabel-Blue">
+                        <label width="1" height="30" alignment="left" text="Handwashing App" textAlignment="center" id="wnX-kN-z67" colorLabel="IBBuiltInLabel-Blue">
                             <color key="textColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         </label>
-                        <group width="136" height="35" alignment="left" id="CrO-on-dzQ">
+                        <group width="1" height="35" alignment="left" id="CrO-on-dzQ">
                             <items>
-                                <button width="0.5" height="31" alignment="center" title="Label" id="7ef-Bp-YNJ">
+                                <button width="0.5" height="31" alignment="center" title="Tag" id="7ef-Bp-YNJ">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" red="0.80980297729999995" green="0.88662109369999997" blue="0.14300881830000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <connections>
@@ -28,16 +28,16 @@
                                 </button>
                             </items>
                         </group>
-                        <group width="136" height="33" alignment="left" id="JD3-EA-1dY">
+                        <group width="1" height="35" alignment="left" id="JD3-EA-1dY">
                             <items>
-                                <button width="58" height="31" alignment="left" title="Start" id="2KE-sl-C2O">
+                                <button width="69" height="31" alignment="left" title="Start" id="2KE-sl-C2O">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <color key="backgroundColor" red="0.1109175758" green="1" blue="0.47811643799999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <connections>
                                         <action selector="startActivityPressed" destination="AgC-eL-Hgc" id="l1X-cE-cvQ"/>
                                     </connections>
                                 </button>
-                                <button width="60" height="30" alignment="right" title="Stop" id="Ui0-XH-8Xi">
+                                <button width="66" height="30" alignment="right" title="Stop" id="Ui0-XH-8Xi">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <fontDescription key="font" type="system" pointSize="17"/>
@@ -47,7 +47,7 @@
                                 </button>
                             </items>
                         </group>
-                        <group width="135" height="35" alignment="left" id="5GK-YT-8lJ">
+                        <group width="1" height="35" alignment="left" id="5GK-YT-8lJ">
                             <items>
                                 <button width="0.5" height="30" alignment="center" title="Save" id="dxQ-YW-XlJ">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -58,7 +58,9 @@
                                 </button>
                             </items>
                         </group>
-                        <timer width="136" height="32" alignment="left" id="aR1-0Z-hrI"/>
+                        <timer width="1" height="32" alignment="center" textAlignment="center" id="aR1-0Z-hrI">
+                            <fontDescription key="font" type="system" pointSize="20"/>
+                        </timer>
                     </items>
                     <connections>
                         <outlet property="WKTimer" destination="aR1-0Z-hrI" id="Tub-df-X4u"/>

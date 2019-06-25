@@ -31,6 +31,36 @@
       "role" : "graphic-large-rectangular"
     },
     {
+      "filename" : "Handwash-24.imageset"
+    },
+    {
+      "filename" : "Handwash-27-5.imageset"
+    },
+    {
+      "filename" : "Handwash-29.imageset"
+    },
+    {
+      "filename" : "Handwash-40.imageset"
+    },
+    {
+      "filename" : "Handwash-44.imageset"
+    },
+    {
+      "filename" : "Handwash-50.imageset"
+    },
+    {
+      "filename" : "Handwash-86.imageset"
+    },
+    {
+      "filename" : "Handwash-98.imageset"
+    },
+    {
+      "filename" : "Handwash-108.imageset"
+    },
+    {
+      "filename" : "Handwash-1024.imageset"
+    },
+    {
       "idiom" : "watch",
       "filename" : "Modular.imageset",
       "role" : "modular"

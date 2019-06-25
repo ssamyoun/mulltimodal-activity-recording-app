@@ -47,10 +47,18 @@ class ViewController: UIViewController, WCSessionDelegate {
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        let contents = message["IMU"] as! String
-        let contentsArr = contents.components(separatedBy: "\n")
-        let fileName:String = contentsArr[0] + ".csv"
-        writeStringtoFile(contents:contents, fileName: fileName)
+        if message.keys.contains("IMU") {
+            let contents = message["IMU"] as! String
+            let contentsArr = contents.components(separatedBy: "\n")
+            let fileName:String = contentsArr[0] + ".csv"
+            writeStringtoFile(contents:contents, fileName: fileName)
+        }
+        if message.keys.contains("BC") {
+            let contents = message["BC"] as! String
+            let contentsArr = contents.components(separatedBy: "\n")
+            let fileName:String = contentsArr[0] + ".csv"
+            writeStringtoFile(contents:contents, fileName: fileName)
+        }
     }
     
     func session(session: WCSession, didReceiveFile file: WCSessionFile) {
