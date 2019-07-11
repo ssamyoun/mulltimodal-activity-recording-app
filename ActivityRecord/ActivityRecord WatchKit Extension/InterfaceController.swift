@@ -36,6 +36,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
         workoutManager.delegate = self
         activateSessionInWatch()
         centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
+        //transferFileToPhone()
     }
     
     @objc func onScanTimerTick() -> Void {
@@ -168,9 +169,11 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
         if(currentAppState == 2) //necessary? multiple saves allows??
         {
             currentAppState = 3
-            readWholeFileToDataAndSendToPhone(fileName: currentActivityFileName, key: "IMU")
-            readWholeFileToDataAndSendToPhone(fileName: currentBeaconFileName, key: "BC")
-        
+//            readWholeFileToDataAndSendToPhone(fileName: currentActivityFileName, key: "IMU")
+//            readWholeFileToDataAndSendToPhone(fileName: currentBeaconFileName, key: "BC")
+            transferFileToPhone(fileName: currentActivityFileName)
+            transferFileToPhone(fileName: currentBeaconFileName)
+
             //can transfer differently?
             //clear file
             whatActivityText.setText("Saved")
@@ -179,6 +182,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
             }
             resetCurrentValues()
         }
+        //transferFileToPhone()
     }
     
     func readWholeFileToDataAndSendToPhone(fileName: String, key: String)
@@ -194,6 +198,29 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
             }
             catch {}
         }
+    }
+    
+    func transferFileToPhone(fileName: String) //func transferFileToPhone(fileName: String, key: String)
+    {
+//        do {
+//            let appContext = ["key1" : "watch", "key2" : "appcontext", "time" : "\(Date())"]
+//            try session?.updateApplicationContext(appContext)
+//        } catch {
+//            print("\(error)")
+//        }
+//        let userInfo = ["key1" : "watch", "key2" : "userinfo", "time" : "\(Date())"]
+//        session?.transferUserInfo(userInfo)
+        //below worked
+//        let fileURL = URL(fileURLWithPath: Bundle.main.path(forResource: "ase", ofType: "txt")!)
+//        let data = ["key1" : "watch", "key2" : "filetransfer", "time" : "\(Date())"]
+//        session?.transferFile(fileURL, metadata: data)
+        
+        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let fileURL = dir.appendingPathComponent(fileName + ".txt")
+            let data = ["key1" : "watch", "key2" : "filetransfer", "time" : "\(Date())"]
+            session?.transferFile(fileURL, metadata: data)
+        }
+        
     }
     //self.session?.transferFile(fileURL, metadata: nil)
     //let data = try Data(contentsOf: fileURL, options: .mappedIfSafe)
@@ -278,7 +305,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
     }
     
     func session(_ session: WCSession, didFinish fileTransfer: WCSessionFileTransfer, error: Error?) {
-        print("finished filetransfer")
+        
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
@@ -287,6 +314,14 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
     
     func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
         
+    }
+    
+    func sessionReachabilityDidChange(_ session: WCSession) {
+        
+    }
+    
+    func session(_ session: WCSession, didFinish userInfoTransfer: WCSessionUserInfoTransfer, error: Error?) {
+        print("finished infotransfer")
     }
     
     func writeStringtoWatchFile(str: String, filename: String){ //+.txt

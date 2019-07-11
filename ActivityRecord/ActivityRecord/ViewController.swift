@@ -16,7 +16,10 @@ extension Date {
 }
 
 class ViewController: UIViewController, WCSessionDelegate {
-
+    
+    
+    @IBOutlet weak var image: UIImageView!
+    
     var session: WCSession?
     
     override func viewDidLoad() {
@@ -68,6 +71,33 @@ class ViewController: UIViewController, WCSessionDelegate {
             //let fileName:String = contentsArr[0] + ".csv"
             writeStringtoFile(contents:contents, fileName: "fileBC_" + String(Date().millisecondsSince1970) + ".txt")
         }
+    }
+    
+    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
+        
+    }
+    
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        
+    }
+    
+    func session(_ session: WCSession, didReceive file: WCSessionFile) {
+        let receivedfileURL = file.fileURL //if (file.metadata != nil){
+//        DispatchQueue.main.async {
+//            if let data = try? Data(contentsOf: fileURL) {
+//                self.image.image = UIImage(data: data)
+//            }
+//        }
+        //below worked, all contents from watch file here
+        //let contents = try? String(contentsOf: fileURL, encoding: .utf8)
+        //writeStringtoFile(contents: contents!, fileName: "IMU_" + String(Date().millisecondsSince1970) + ".txt")
+        //lets now try direct save file, one option is convert to data as in first approach and then save data as file
+        //second option is copy whole file
+        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let destinationURL = dir.appendingPathComponent(receivedfileURL.lastPathComponent)
+            try! FileManager.default.copyItem(at: receivedfileURL, to: destinationURL)
+        }
+        
     }
     
     
