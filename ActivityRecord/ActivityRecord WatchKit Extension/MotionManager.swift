@@ -21,7 +21,7 @@ protocol MotionManagerDelegate: class {
 
 extension Date {
     var millisecondsSince1970:Int64 {
-        return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+        return Int64((self.timeIntervalSince1970).rounded()) // * 1000.0
     }
 }
 
@@ -113,6 +113,7 @@ class MotionManager {
 //                             deviceMotion.attitude.roll,
 //                             deviceMotion.attitude.pitch,
 //                             deviceMotion.attitude.yaw)
+        //deviceMotion.timestamp
         gravityStr = String(format: "%.5f, %.5f, %.5f" ,
                             deviceMotion.gravity.x,
                             deviceMotion.gravity.y,

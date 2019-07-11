@@ -9,6 +9,12 @@
 import UIKit
 import WatchConnectivity
 
+extension Date {
+    var millisecondsSince1970:Int64 {
+        return Int64((self.timeIntervalSince1970).rounded()) // * 1000.0
+    }
+}
+
 class ViewController: UIViewController, WCSessionDelegate {
 
     var session: WCSession?
@@ -17,7 +23,10 @@ class ViewController: UIViewController, WCSessionDelegate {
         super.viewDidLoad()
         activateSessionInPhone()
         // Do any additional setup after loading the view, typically from a nib.
+        //NSLog("skbfaksjfb  junnun samyoun")
+        //print("sg siratk jsdbv")
     }
+    
     
     func writeStringtoFile(contents:String, fileName: String){
         let filePath = getDocumentsDirectory().appendingPathComponent(fileName)
@@ -49,23 +58,34 @@ class ViewController: UIViewController, WCSessionDelegate {
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         if message.keys.contains("IMU") {
             let contents = message["IMU"] as! String
-            let contentsArr = contents.components(separatedBy: "\n")
-            let fileName:String = contentsArr[0] + ".csv"
-            writeStringtoFile(contents:contents, fileName: fileName)
+            //let contentsArr = contents.components(separatedBy: "\n")
+            //let fileName:String = contentsArr[0] + ".csv"
+            writeStringtoFile(contents:contents, fileName: "fileIMU_" + String(Date().millisecondsSince1970) + ".txt")
         }
         if message.keys.contains("BC") {
             let contents = message["BC"] as! String
-            let contentsArr = contents.components(separatedBy: "\n")
-            let fileName:String = contentsArr[0] + ".csv"
-            writeStringtoFile(contents:contents, fileName: fileName)
+            //let contentsArr = contents.components(separatedBy: "\n")
+            //let fileName:String = contentsArr[0] + ".csv"
+            writeStringtoFile(contents:contents, fileName: "fileBC_" + String(Date().millisecondsSince1970) + ".txt")
         }
     }
     
-    func session(session: WCSession, didReceiveFile file: WCSessionFile) {
-        let data = NSData(contentsOf: file.fileURL)
-        let fileName = file.fileURL.lastPathComponent
-        writeDatatoFile(contents: data as! Data, fileName: fileName)
-    }
+    
+//    func session(_ session: WCSession, didReceiveMessageData messageData: Data) {
+//        let str = String(decoding: messageData, as: UTF8.self)
+//        print("SESSIONDATA" + str)
+//    }
+    
+//    func session(_ session: WCSession, didReceive file: WCSessionFile) {
+//            do {
+//                let text2 = try String(contentsOf: file.fileURL, encoding: .utf8)
+//                print(text2)
+//            }
+//            catch {/* error handling here */}
+////        let data = NSData(contentsOf: file.fileURL)
+////        let fileName = file.fileURL.lastPathComponent
+////        writeDatatoFile(contents: data! as Data, fileName: fileName)
+//    }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
         

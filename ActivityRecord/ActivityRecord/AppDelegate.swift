@@ -16,6 +16,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+//        var paths: Array = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+//        let documentsDirectory: String = paths[0]
+//        let logPath: String = documentsDirectory.appendingFormat("/console.log")
+//
+//        if (isatty(STDERR_FILENO) == 0)
+//        {
+//            freopen(logPath, "a+", stderr)
+//            freopen(logPath, "a+", stdin)
+//            freopen(logPath, "a+", stdout)
+//        }
+//        print(logPath)
+//        let docDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+//        let logpathe = docDirectory.appendingPathComponent("Logerr.txt")
+//        freopen(logpathe.path.cString(using: .ascii)!, "a+", stderr)
+//        let logpatho = docDirectory.appendingPathComponent("Logout.txt")
+//        freopen(logpatho.path.cString(using: .ascii)!, "a+", stdout)
+//        print(logpatho.path)
         return true
     }
 
