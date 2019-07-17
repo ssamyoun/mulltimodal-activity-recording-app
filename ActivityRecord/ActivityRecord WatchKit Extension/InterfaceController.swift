@@ -33,6 +33,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
         super.awake(withContext: context)
         //labelBtn.setHidden(true)
         //whatActivityText.setHidden(true)
+        setBootOffset()
         workoutManager.delegate = self
         activateSessionInWatch()
         centralManager = CBCentralManager(delegate: self, queue: nil, options: nil)
@@ -62,6 +63,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         //print("peripheral: \(peripheral)")  //print("RSSI   : \(RSSI)")
         let str = String(Date().millisecondsSince1970) + ", " + peripheral.identifier.uuidString + ", " + RSSI.stringValue + "\n"
+        //let str = String(Date().millisecondsSince1970) + ", " + peripheral.identifier.uuidString + ", " + RSSI.stringValue + "\n"
         if(self.currentReader == 1){
             currentScannedDevices1 = currentScannedDevices1 + str
         } else if(self.currentReader == 2){
@@ -105,6 +107,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
     var attitudeStr = ""
     var userAccelStr = ""
     var rotationRateStr = ""
+    var systemOffset: Int64 = 0
     
     let activityLabelTitle = "Timestamp, UserAccX, UserAccY, UserAccZ, GravX, GravY, GravZ, RotatX, RotatY, RotatZ \n"
     let tagChoices = ["Left","Right"]
@@ -117,6 +120,12 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
                 self.whatActivityText.setText(self.currentHand)
             }
         })
+    }
+    
+    func setBootOffset(){ //in secs
+        let uptime:TimeInterval = ProcessInfo.processInfo.systemUptime
+        let nowTimeIntervalSince1970 = Date().timeIntervalSince1970
+        systemOffset = Int64((nowTimeIntervalSince1970 - uptime).rounded())
     }
     
     var currentReader = 0 //1 or 2
@@ -295,7 +304,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
             self.userAccelStr = userAccelStr
             self.rotationRateStr = rotationRateStr
             self.attitudeStr = attitudeStr
-            let str = String(timeStamp) + ", " + userAccelStr + ", " + gravityStr + ", " + rotationRateStr + ", " + "\n"
+            let str = String(self.systemOffset + timeStamp) + ", " + userAccelStr + ", " + gravityStr + ", " + rotationRateStr + ", " + "\n"
             if(self.currentReader == 1){
                 self.currentIMUReadings1 = String(self.currentIMUReadings1) + str
             }else if(self.currentReader == 2){

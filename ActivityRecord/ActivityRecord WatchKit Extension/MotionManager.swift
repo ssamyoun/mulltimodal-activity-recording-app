@@ -131,8 +131,8 @@ class MotionManager {
                              deviceMotion.attitude.pitch,
                              deviceMotion.attitude.yaw)
         
-        //timeStamp = Int64(deviceMotion.timestamp)
-        timeStamp = Date().millisecondsSince1970
+        timeStamp = Int64(deviceMotion.timestamp)
+        //timeStamp = Date().millisecondsSince1970
         
 //_ = Date().millisecondsSince1970
 //        os_log("Motion: %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@",
