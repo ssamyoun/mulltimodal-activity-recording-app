@@ -21,7 +21,7 @@ protocol MotionManagerDelegate: class {
 
 extension Date {
     var millisecondsSince1970:Int64 {
-        return Int64((self.timeIntervalSince1970).rounded()) // * 1000.0
+        return Int64((self.timeIntervalSince1970 * 1000.0).rounded()) // * 1000.0
     }
 }
 
@@ -131,8 +131,8 @@ class MotionManager {
                              deviceMotion.attitude.pitch,
                              deviceMotion.attitude.yaw)
         
-        timeStamp = Int64(deviceMotion.timestamp)
-        //timeStamp = Date().millisecondsSince1970
+        //timeStamp = Int64(deviceMotion.timestamp)
+        timeStamp = Date().millisecondsSince1970
         
 //_ = Date().millisecondsSince1970
 //        os_log("Motion: %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@, %@",

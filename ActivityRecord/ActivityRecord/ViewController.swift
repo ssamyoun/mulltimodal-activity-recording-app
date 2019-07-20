@@ -58,6 +58,25 @@ class ViewController: UIViewController, WCSessionDelegate {
         
     }
     
+//    func clearAllFilesFromTempDirectory(){
+//        var error: NSErrorPointer = nil
+//        //let dirPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as! String
+//        //NSSearchPathForDirectoriesInDomains
+//        var tempDirPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("Temp")
+//        var directoryContents: NSArray = FileManager.default.contentsOfDirectoryAtPath(tempDirPath, error: error)?
+//        
+//        if directoryContents != nil {
+//            for path in directoryContents {
+//                let fullPath = dirPath.stringByAppendingPathComponent(path as! String)
+//                if fileManager.removeItemAtPath(fullPath, error: error) == false {
+//                    println("Could not delete file: \(error)")
+//                }
+//            }
+//        } else {
+//            println("Could not retrieve directory: \(error)")
+//        }
+//    }
+    
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         if message.keys.contains("IMU") {
             let contents = message["IMU"] as! String

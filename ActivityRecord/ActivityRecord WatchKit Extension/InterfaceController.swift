@@ -42,9 +42,9 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
     
     @objc func onScanTimerTick() -> Void {
         if(currentAppState == 1){
-            if centralManager.state == .poweredOn {
-                centralManager.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey : true])
-            }
+//            if centralManager.state == .poweredOn {
+//                centralManager.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey : true])
+//            }
         }
         else{ //safe
             scanTimer?.invalidate()
@@ -61,6 +61,9 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
     }
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        if centralManager.state == .poweredOn {
+            centralManager.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey : true])
+        }
         //print("peripheral: \(peripheral)")  //print("RSSI   : \(RSSI)")
         let str = String(Date().millisecondsSince1970) + ", " + peripheral.identifier.uuidString + ", " + RSSI.stringValue + "\n"
         //let str = String(Date().millisecondsSince1970) + ", " + peripheral.identifier.uuidString + ", " + RSSI.stringValue + "\n"
@@ -125,7 +128,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
     func setBootOffset(){ //in secs
         let uptime:TimeInterval = ProcessInfo.processInfo.systemUptime
         let nowTimeIntervalSince1970 = Date().timeIntervalSince1970
-        systemOffset = Int64((nowTimeIntervalSince1970 - uptime).rounded())
+        systemOffset = Int64(((nowTimeIntervalSince1970 - uptime) * 1000.0).rounded())
     }
     
     var currentReader = 0 //1 or 2
@@ -139,7 +142,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
     var currentBeaconFileName = ""
     
     @IBAction func startActivityPressed() { //also performs reset
-        resetCurrentValues()
+        resetCurrentValuesAtStart()
         currentAppState = 1
         //shouldScanningStop = false
         whatActivityText.setText("Started")
@@ -148,7 +151,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
         writeInitialLinesToFilesForNewRecording()
         currentReader = 1
         workoutManager.startWorkout()
-        scanTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(onScanTimerTick), userInfo: nil, repeats: true)
+        scanTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(onScanTimerTick), userInfo: nil, repeats: true)
         RunLoop.current.add(scanTimer!, forMode: RunLoop.Mode.common)
         if centralManager.state == .poweredOn {
             centralManager.scanForPeripherals(withServices: nil, options: nil)
@@ -175,8 +178,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
     }
 
     @IBAction func saveBtnPressed() { //transfer to phone and clear file
-        if(currentAppState == 2) //necessary? multiple saves allows??
-        {
+        //if(currentAppState == 2) //necessary? multiple saves allows??
+        //{
             currentAppState = 3
 //            readWholeFileToDataAndSendToPhone(fileName: currentActivityFileName, key: "IMU")
 //            readWholeFileToDataAndSendToPhone(fileName: currentBeaconFileName, key: "BC")
@@ -189,8 +192,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
             delay(1){
                 self.whatActivityText.setText("Handwashing App")
             }
-            resetCurrentValues()
-        }
+            resetCurrentValuesAtStop()
+        //}
         //transferFileToPhone()
     }
     
@@ -271,12 +274,12 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
     
     func writeInitialLinesToFilesForNewRecording(){
         currentActivityFileName =  "Sensors_" + currentHand + "_" + String(Date().millisecondsSince1970)//self.currentDateAmPmAsString()
-        currentBeaconFileName =  "Beacons_" + String(Date().millisecondsSince1970)//self.currentDateAmPmAsString()
+        currentBeaconFileName =  "Beacons_" + currentHand + "_" + String(Date().millisecondsSince1970)//self.currentDateAmPmAsString()
         writeStringtoWatchFile(str: currentActivityFileName + "\n" + self.activityLabelTitle, filename: currentActivityFileName + ".txt")
         writeStringtoWatchFile(str: currentBeaconFileName + "\n" + self.scannedLabelTitle, filename: currentBeaconFileName + ".txt")
     }
     
-    func resetCurrentValues(){
+    func resetCurrentValuesAtStop(){
          currentReader = 0 //1 or 2
          currentIMUReadings1 = ""
          currentIMUReadings2 = ""
@@ -286,6 +289,17 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
          currentHand = ""
          currentBeaconFileName = ""
          currentActivityFileName = ""
+    }
+    
+    func resetCurrentValuesAtStart(){
+        currentReader = 0 //1 or 2
+        currentIMUReadings1 = ""
+        currentIMUReadings2 = ""
+        currentAppState = 0
+        currentScannedDevices1 = ""
+        currentScannedDevices2 = ""
+        currentBeaconFileName = ""
+        currentActivityFileName = ""
     }
     
     func delay(_ delay:Double, closure:@escaping ()->()){
@@ -304,7 +318,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate, CBPeriphera
             self.userAccelStr = userAccelStr
             self.rotationRateStr = rotationRateStr
             self.attitudeStr = attitudeStr
-            let str = String(self.systemOffset + timeStamp) + ", " + userAccelStr + ", " + gravityStr + ", " + rotationRateStr + ", " + "\n"
+            //let str = String(self.systemOffset + timeStamp) + ", " + userAccelStr + ", " + gravityStr + ", " + rotationRateStr + ", " + "\n"
+            let str = String(timeStamp) + ", " + userAccelStr + ", " + gravityStr + ", " + rotationRateStr + ", " + "\n"
             if(self.currentReader == 1){
                 self.currentIMUReadings1 = String(self.currentIMUReadings1) + str
             }else if(self.currentReader == 2){
